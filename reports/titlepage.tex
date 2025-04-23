@@ -1,0 +1,45 @@
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+        \includegraphics[width=0.6\textwidth]{figures/ECAM_logo.jpg}\\
+        
+        \vspace{3cm}
+
+        \setlength{\parskip}{0pt}
+        \hrule
+        \vspace{0.5cm}
+        \huge
+        \textsc{\textbf{Ecamania Esports Project\\Report}}\\
+        \vspace{0.5cm}
+        \hrule
+        
+        \vspace{1cm}
+        
+        \LARGE
+        \textsc{AI Lab}\\
+
+        \vspace{2cm}
+
+        \large
+        \setlength{\tabcolsep}{10pt}
+        \renewcommand{\arraystretch}{1.5}
+        \begin{tabular}{ccc}
+            \textbf{First Name :} & \textbf{Last Name :} & \textbf{Matricule :} \\
+            Jurquet & Nicolas & 21211
+        \end{tabular}
+
+        \vfill
+        
+        \textbf{Haute École ICHEC - ECAM - ISFSC}\\
+        \medskip
+
+        % Automate academic years
+        \newcommand{\yearOne}{
+            \the\numexpr \the\year - \ifnum\month<9 1\else 0\fi\relax
+        }
+        \newcommand{\yearTwo}{
+            \the\numexpr \the\year + \ifnum\month<9 0\else 1\fi\relax
+        }
+        Academic year \yearOne\space --\yearTwo
+    \end{center}
+\end{titlepage}
