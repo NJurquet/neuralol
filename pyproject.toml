@@ -1,0 +1,23 @@
+[project]
+name = "neuralol"
+version = "0.1.0"
+description = "ML project that predict if a LoL player has won a game based on his performance."
+readme = "README.md"
+authors = [
+    { name = "NJurquet", email = "nicolor01@hotmail.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "ipykernel>=6.29.5",
+    "numpy>=2.1.3",
+    "pandas>=2.2.3",
+    "scikit-learn>=1.6.1",
+    "tensorflow>=2.19.0",
+]
+
+# [project.scripts]
+# neuralol = "neuralol:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
