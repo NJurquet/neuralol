@@ -1,3 +1,14 @@
+class Role:
+    """
+    Class holding player roles.
+    """
+    TOP = 'Top'
+    JUNGLE = 'Jungle'
+    MID = 'Mid'
+    BOT = 'Bot'
+    SUPPORT = 'Support'
+
+
 class StatsCols:
     """
     Class holding players game stats column names.
