@@ -41,3 +41,19 @@ class StatsCols:
     WARDS_PLACED = 'wards_placed'
     LARGEST_KILLING_SPREE = 'largest_killing_spree'
     LARGEST_MULTI_KILL = 'largest_multi_kill'
+
+
+class NewFeature:
+    """
+    Class holding new feature names.
+    """
+    KLA = 'KLA'
+    CS_PER_MIN = 'cs_per_min'
+    TEAM_KILLS_PER_MIN = 'team_kills_per_min'
+    OBJECTIVES_CONTROL = 'objectives_control'
+    TOWER_CONTROL = 'tower_control'
+    GOLD_PER_MIN = 'gold_per_min'
+    LEVEL_PER_MIN = 'level_per_min'
+    TOTAL_DAMAGE_PER_MIN = 'total_damage_per_min'
+    DAMAGE_TO_CHAMPIONS_PER_MIN = 'damage_to_champions_per_min'
+    DAMAGE_TAKEN_PER_MIN = 'damage_taken_per_min'
