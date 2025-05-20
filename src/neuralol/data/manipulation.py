@@ -29,11 +29,11 @@ def get_model_players_game_features(role: str | None = None) -> list[str]:
 
     features = [
         NewFeature.KLA,
-        NewFeature.OBJECTIVES_CONTROL,
-        NewFeature.TOWER_CONTROL,
+        # NewFeature.OBJECTIVES_CONTROL,
+        # NewFeature.TOWER_CONTROL,
         NewFeature.GOLD_PER_MIN,
         NewFeature.LEVEL_PER_MIN,
-        NewFeature.TEAM_KILLS_PER_MIN,
+        # NewFeature.TEAM_KILLS_PER_MIN,
         StatsCols.LARGEST_KILLING_SPREE,
         StatsCols.LARGEST_MULTI_KILL,
     ]
@@ -50,9 +50,9 @@ def get_model_players_game_features(role: str | None = None) -> list[str]:
     return features
 
 
-def role_test_split(df: pd.DataFrame, role: str, test_size: float = 0.2) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+def role_train_val_test_split(df: pd.DataFrame, role: str, val_size: float = 0.15, test_size: float = 0.1, show: bool = True) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """
-    Split the dataframe into training+validation dataset and test dataset for a provided role.
+    Split the dataframe into training, validation and test datasets for a provided role.
 
     Parameters
     ----------
@@ -60,13 +60,15 @@ def role_test_split(df: pd.DataFrame, role: str, test_size: float = 0.2) -> tupl
         The dataframe to split.
     role : str
         The role to split by.
+    val_size : float, optional
+        The proportion of the dataset to include in the validation split (default is 0.15).
     test_size : float, optional
-        The proportion of the dataset to include in the test split (default is 0.2).
+        The proportion of the dataset to include in the test split (default is 0.1).
 
     Returns
     -------
-    tuple[pd.DataFrame]
-        The training+validation dataset & target and the test dataset & target that have the role specified.
+    tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]
+        The training dataset & target, validation dataset & target, and test dataset & target that have the role specified.
     """
     if role not in Role.LIST:
         raise ValueError(
@@ -75,11 +77,37 @@ def role_test_split(df: pd.DataFrame, role: str, test_size: float = 0.2) -> tupl
     # Filter the dataframe by role
     df_role = df[df[StatsCols.ROLE] == role]
 
-    X = df_role[get_model_players_game_features(role)]
+    X = df_role
     y = df_role[StatsCols.WIN]
 
-    # Split the dataframe into train and test sets
+    # Split the dataframe into train+val and test sets
     X_train_val, X_test, y_train_val, y_test = train_test_split(
         X, y, test_size=test_size, random_state=42)
 
-    return X_train_val, X_test, y_train_val, y_test
+    # Calculate the validation size relative to the train+val set
+    relative_val_size = val_size / (1 - test_size)
+
+    # Further split the train+val set into train and validation sets
+    X_train, X_val, y_train, y_val = train_test_split(
+        X_train_val, y_train_val, test_size=relative_val_size, random_state=42)
+
+    if show:
+        from IPython.display import display
+        # Calculate total dataset size
+        total_size = X.shape[0]
+        # Create a dataframe to display the split information
+        split_info = pd.DataFrame({
+            'Split': ['Training set', 'Validation set', 'Test set', 'Total'],
+            'Samples': [X_train.shape[0], X_val.shape[0], X_test.shape[0], total_size],
+            'Proportion (%)': [
+                X_train.shape[0]/total_size * 100,
+                X_val.shape[0]/total_size * 100,
+                X_test.shape[0]/total_size * 100,
+                100.0
+            ]
+        })
+        # Format the percentage columns
+        split_info['Proportion (%)'] = split_info['Proportion (%)'].round(2)
+        display(split_info)
+
+    return X_train, X_val, X_test, y_train, y_val, y_test
