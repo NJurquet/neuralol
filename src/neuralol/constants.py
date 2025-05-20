@@ -58,3 +58,13 @@ class NewFeature:
     TOTAL_DAMAGE_PER_MIN = 'total_damage_per_min'
     DAMAGE_TO_CHAMPIONS_PER_MIN = 'damage_to_champions_per_min'
     DAMAGE_TAKEN_PER_MIN = 'damage_taken_per_min'
+
+
+class Models:
+    """
+    Class holding model names.
+    """
+    RANDOM_FOREST = 'RandomForest'
+    XGBOOST = 'XGBoost'
+    DNN = 'DNN'
+    LIST = [RANDOM_FOREST, XGBOOST, DNN]
