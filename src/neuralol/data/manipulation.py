@@ -1,3 +1,6 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+
 from neuralol.constants import StatsCols, NewFeature, Role
 
 
@@ -45,3 +48,38 @@ def get_model_players_game_features(role: str | None = None) -> list[str]:
         ])
 
     return features
+
+
+def role_test_split(df: pd.DataFrame, role: str, test_size: float = 0.2) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """
+    Split the dataframe into training+validation dataset and test dataset for a provided role.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        The dataframe to split.
+    role : str
+        The role to split by.
+    test_size : float, optional
+        The proportion of the dataset to include in the test split (default is 0.2).
+
+    Returns
+    -------
+    tuple[pd.DataFrame]
+        The training+validation dataset & target and the test dataset & target that have the role specified.
+    """
+    if role not in Role.LIST:
+        raise ValueError(
+            f"Invalid role: '{role}'. Use `Role` constant class.\nValid roles are: {Role.LIST}.")
+
+    # Filter the dataframe by role
+    df_role = df[df[StatsCols.ROLE] == role]
+
+    X = df_role[get_model_players_game_features(role)]
+    y = df_role[StatsCols.WIN]
+
+    # Split the dataframe into train and test sets
+    X_train_val, X_test, y_train_val, y_test = train_test_split(
+        X, y, test_size=test_size, random_state=42)
+
+    return X_train_val, X_test, y_train_val, y_test
