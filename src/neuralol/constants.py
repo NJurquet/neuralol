@@ -7,6 +7,7 @@ class Role:
     MID = 'Mid'
     BOT = 'Bot'
     SUPPORT = 'Support'
+    LIST = [TOP, JUNGLE, MID, BOT, SUPPORT]
 
 
 class StatsCols:
